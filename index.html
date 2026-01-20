@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phishing Attack Simulator</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎣 Phishing Attack Simulator</h1>
+            <p>Security Awareness Training Tool - Learn to Identify Phishing Attempts</p>
+        </div>
+
+        <div class="main-grid">
+            <!-- Left Panel: Template Selection -->
+            <div class="card">
+                <h2>📧 Select Phishing Template</h2>
+                <div class="template-selector">
+                    <div class="template-card selected" onclick="selectTemplate('banking', this)">
+                        <span class="risk-badge risk-high">High Risk</span>
+                        <h3>Banking Alert</h3>
+                        <p>Urgent account verification required</p>
+                    </div>
+                    <div class="template-card" onclick="selectTemplate('shipping', this)">
+                        <span class="risk-badge risk-medium">Medium Risk</span>
+                        <h3>Package Delivery</h3>
+                        <p>Failed delivery notification</p>
+                    </div>
+                    <div class="template-card" onclick="selectTemplate('corporate', this)">
+                        <span class="risk-badge risk-high">High Risk</span>
+                        <h3>IT Department</h3>
+                        <p>Password reset request</p>
+                    </div>
+                    <div class="template-card" onclick="selectTemplate('prize', this)">
+                        <span class="risk-badge risk-medium">Medium Risk</span>
+                        <h3>Prize Winner</h3>
+                        <p>You've won a reward!</p>
+                    </div>
+                </div>
+
+                <div class="form-group" style="margin-top: 30px;">
+                    <label>📊 Campaign Statistics</label>
+                    <div class="stats-grid">
+                        <div class="stat-box">
+                            <div class="stat-number" id="totalSimulations">0</div>
+                            <div class="stat-label">Simulations</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="stat-number" id="clickedLinks">0</div>
+                            <div class="stat-label">Clicked</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="stat-number" id="awarenessRate">0%</div>
+                            <div class="stat-label">Awareness</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Panel: Configuration & Preview -->
+            <div class="card">
+                <h2>⚙️ Customize Email</h2>
+                <div class="form-group">
+                    <label>Recipient Email</label>
+                    <input type="email" id="recipientEmail" placeholder="e.g., john.doe@company.com" value="">
+                </div>
+                <div class="form-group">
+                    <label>Sender Name</label>
+                    <input type="text" id="senderName" placeholder="e.g., IT Security Team, Amazon Support">
+                </div>
+                <div class="form-group">
+                    <label>Subject Line</label>
+                    <input type="text" id="subjectLine" placeholder="e.g., URGENT: Action Required">
+                </div>
+                
+                <button class="btn" onclick="generatePhishingEmail()">🚀 Generate Phishing Email</button>
+
+                <div class="preview-section" id="previewSection" style="display: none;">
+                    <h3 style="margin-bottom: 15px; color: #333;">📨 Email Preview</h3>
+                    <div class="email-preview" id="emailPreview"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Phishing Indicators Card -->
+        <div class="card">
+            <h2>🔍 Common Phishing Indicators</h2>
+            <div class="indicator-list">
+                <div class="indicator-item">
+                    <span class="indicator-icon">⚠️</span>
+                    <span><strong>Urgency:</strong> Creates false sense of urgency to bypass critical thinking</span>
+                </div>
+                <div class="indicator-item">
+                    <span class="indicator-icon">🔗</span>
+                    <span><strong>Suspicious Links:</strong> URLs don't match the claimed sender domain</span>
+                </div>
+                <div class="indicator-item">
+                    <span class="indicator-icon">📧</span>
+                    <span><strong>Sender Address:</strong> Email from unfamiliar or spoofed addresses</span>
+                </div>
+                <div class="indicator-item">
+                    <span class="indicator-icon">✍️</span>
+                    <span><strong>Grammar Errors:</strong> Poor spelling, grammar, or formatting</span>
+                </div>
+                <div class="indicator-item">
+                    <span class="indicator-icon">🎁</span>
+                    <span><strong>Too Good to Be True:</strong> Promises of prizes, money, or urgent rewards</span>
+                </div>
+                <div class="indicator-item">
+                    <span class="indicator-icon">🔐</span>
+                    <span><strong>Credential Requests:</strong> Asks for passwords, SSN, or sensitive information</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Result Modal -->
+    <div class="result-modal" id="resultModal">
+        <div class="result-content">
+            <button class="close-btn" onclick="closeModal()" style="float: right; padding: 8px 16px; margin: -20px -20px 20px 0;">✕ Close</button>
+            <div style="clear: both;"></div>
+            
+            <div class="result-icon" id="resultIcon">⚠️</div>
+            <h2 class="result-title" id="resultTitle">You Clicked a Phishing Link!</h2>
+            <p class="result-message" id="resultMessage">
+                This was a simulated phishing attack. In a real scenario, you could have compromised your credentials or infected your system with malware.
+            </p>
+            
+            <div class="warning-signs">
+                <h3>🚨 Red Flags You Missed:</h3>
+                <ul id="redFlagsList">
+                    <li>Urgent language creating pressure to act quickly</li>
+                    <li>Suspicious sender email address</li>
+                    <li>Generic greeting instead of personalized message</li>
+                    <li>Request for sensitive information via email</li>
+                </ul>
+            </div>
+
+            <div class="warning-signs" style="background: #d4edda; border-left-color: #28a745;">
+                <h3 style="color: #155724;">✅ How to Protect Yourself:</h3>
+                <ul style="color: #155724;">
+                    <li>Always verify sender email addresses carefully</li>
+                    <li>Hover over links to check the actual URL before clicking</li>
+                    <li>Never provide credentials or sensitive info via email</li>
+                    <li>Contact the organization directly through official channels</li>
+                    <li>Use multi-factor authentication (MFA) wherever possible</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
